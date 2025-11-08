@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://b5pbspwp3f6sl"]
+[gd_scene load_steps=17 format=4 uid="uid://b5pbspwp3f6sl"]
 
 [ext_resource type="Texture2D" uid="uid://hno1iofis03l" path="res://assets/sprites/world_tileset.png" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://8p1yvuc4go0h" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://qr3456ahr1qp" path="res://assets/sprites/knight.png" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://b50nt0luu6tif" path="res://scenes/platform.tscn" id="4_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://yfsd1w4reptb" path="res://scenes/coin.tscn" id="5_iywne"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbhrr"]
 texture = ExtResource("1_lnu2h")
@@ -209,17 +211,61 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_fjrip"]
 radius = 6.0
 
+[sub_resource type="Animation" id="Animation_lbhrr"]
+resource_name = "move"
+length = 1.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Platform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.4666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(416, 21), Vector2(512, 21)]
+}
+
+[sub_resource type="Animation" id="Animation_iywne"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Platform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(512, 21)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p57ef"]
+_data = {
+&"RESET": SubResource("Animation_iywne"),
+&"move": SubResource("Animation_lbhrr")
+}
+
 [node name="Game" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_iywne")
 format = 2
-layer_0/tile_data = PackedInt32Array(262146, 0, 0, 262147, 0, 0, 327681, 0, 0, 327680, 0, 0, 5, 0, 0, -65531, 0, 0, -65530, 0, 0, -65529, 0, 0, -65528, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 13, 0, 0, -65522, 0, 0, -65521, 0, 0, 16, 0, 0, 327684, 393216, 0, 327685, 393216, 0, 327686, 393216, 0, 327691, 393216, 0, 327692, 393216, 0, 327695, 393216, 0, 327696, 393216, 0, 65541, 0, 1, 65542, 0, 1, 6, 0, 1, 7, 0, 1, 65544, 0, 1, 65545, 0, 1, 65546, 0, 1, 14, 0, 1, 15, 0, 1, 393216, 0, 1, 393217, 0, 1, 327682, 0, 1, 327683, 0, 1, 393219, 0, 1, 458755, 0, 1, 458754, 0, 1, 393218, 0, 1, 458752, 0, 1, 458753, 0, 1, 393220, 393216, 1, 393221, 393216, 1, 393222, 393216, 1, 458758, 393216, 1, 458757, 393216, 1, 458756, 393216, 1, 393227, 393216, 1, 458763, 393216, 1, 458764, 393216, 1, 393228, 393216, 1, 393231, 393216, 1, 393232, 393216, 1, 458768, 393216, 1, 458767, 393216, 1, 327687, 589824, 0, 327688, 589824, 0, 327689, 655360, 0, 327690, 720896, 0, 327693, 589824, 0, 327694, 655360, 0, 17, 262144, 0, 18, 262144, 0, 19, 262144, 0, 65558, 262144, 0, 65559, 262144, 0, 65560, 262144, 0, 65553, 262144, 1, 65554, 262144, 1, 65555, 262144, 1, 131091, 262144, 1, 131092, 262144, 1, 131093, 262144, 1, 131094, 262144, 1, 131095, 262144, 1, 131096, 262144, 1, 196630, 262144, 1, 196631, 262144, 1, 196632, 262144, 1, 458774, 262144, 1, 458775, 262144, 1, 458776, 262144, 1, 65564, 131072, 0, 65565, 131072, 0, 65566, 131072, 0, 131100, 131072, 1, 196636, 131072, 1, 262172, 131072, 1, 262173, 131072, 1, 262174, 131072, 1, 327710, 131072, 1, 393246, 131072, 1, 458782, 131072, 1, 458781, 131072, 1, 131101, 196608, 1, 131102, 196608, 1, 196638, 196608, 1, 196637, 196608, 1, 327708, 196608, 1, 393244, 196608, 1, 458780, 196608, 1, 327709, 196608, 0, 393245, 196608, 0, 393238, 0, 0, 393239, 0, 0, 393240, 0, 0, -131065, 0, 5, -196601, 0, 4, -262137, 0, 4, -327673, 0, 4, -393209, 0, 3, 262155, 0, 8, -65517, 458752, 6, 23, 327680, 5, -65513, 327680, 4, -131049, 327680, 4, -196585, 327680, 4, -262121, 327680, 4, -327657, 327680, 4, -393193, 327680, 3, 29, 65536, 5)
+layer_0/name = "Layer1"
+
+[node name="Layer0" type="TileMapLayer" parent="TileMap"]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAACAAQAAAAAAAAAAAADAAQAAAAAAAAAAAABAAUAAAAAAAAAAAAAAAUAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAP//AAAAAAAAAAAGAP//AAAAAAAAAAAHAP//AAAAAAAAAAAIAP//AAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAP//AAAAAAAAAAAPAP//AAAAAAAAAAAQAAAAAAAAAAAAAAAEAAUAAAAGAAAAAAAFAAUAAAAGAAAAAAAGAAUAAAAGAAAAAAALAAUAAAAGAAAAAAAMAAUAAAAGAAAAAAAPAAUAAAAGAAAAAAAQAAUAAAAGAAAAAAAFAAEAAAAAAAEAAAAGAAEAAAAAAAEAAAAGAAAAAAAAAAEAAAAHAAAAAAAAAAEAAAAIAAEAAAAAAAEAAAAJAAEAAAAAAAEAAAAKAAEAAAAAAAEAAAAOAAAAAAAAAAEAAAAPAAAAAAAAAAEAAAAAAAYAAAAAAAEAAAABAAYAAAAAAAEAAAACAAUAAAAAAAEAAAADAAUAAAAAAAEAAAADAAYAAAAAAAEAAAADAAcAAAAAAAEAAAACAAcAAAAAAAEAAAACAAYAAAAAAAEAAAAAAAcAAAAAAAEAAAABAAcAAAAAAAEAAAAEAAYAAAAGAAEAAAAFAAYAAAAGAAEAAAAGAAYAAAAGAAEAAAAGAAcAAAAGAAEAAAAFAAcAAAAGAAEAAAAEAAcAAAAGAAEAAAALAAYAAAAGAAEAAAALAAcAAAAGAAEAAAAMAAcAAAAGAAEAAAAMAAYAAAAGAAEAAAAPAAYAAAAGAAEAAAAQAAYAAAAGAAEAAAAQAAcAAAAGAAEAAAAPAAcAAAAGAAEAAAAHAAUAAAAJAAAAAAAIAAUAAAAJAAAAAAAJAAUAAAAKAAAAAAAKAAUAAAALAAAAAAANAAUAAAAJAAAAAAAOAAUAAAAKAAAAAAARAAAAAAAEAAAAAAASAAAAAAAEAAAAAAATAAAAAAAEAAAAAAAWAAEAAAAEAAAAAAAXAAEAAAAEAAAAAAAYAAEAAAAEAAAAAAARAAEAAAAEAAEAAAASAAEAAAAEAAEAAAATAAEAAAAEAAEAAAATAAIAAAAEAAEAAAAUAAIAAAAEAAEAAAAVAAIAAAAEAAEAAAAWAAIAAAAEAAEAAAAXAAIAAAAEAAEAAAAYAAIAAAAEAAEAAAAWAAMAAAAEAAEAAAAXAAMAAAAEAAEAAAAYAAMAAAAEAAEAAAAWAAcAAAAEAAEAAAAXAAcAAAAEAAEAAAAYAAcAAAAEAAEAAAAWAAYAAAAAAAAAAAAXAAYAAAAAAAAAAAAYAAYAAAAAAAAAAAAHAP7/AAAAAAUAAAAHAP3/AAAAAAQAAAAHAPz/AAAAAAQAAAAHAPv/AAAAAAQAAAAHAPr/AAAAAAMAAAALAAQAAAAAAAgAAAATAP//AAAHAAYAAAAXAAAAAAAFAAUAAAAXAP//AAAFAAQAAAAXAP7/AAAFAAQAAAAXAP3/AAAFAAQAAAAXAPz/AAAFAAQAAAAXAPv/AAAFAAQAAAAXAPr/AAAFAAMAAAAhAAEAAAACAAAAAAAhAAIAAAACAAEAAAAhAAMAAAACAAEAAAAhAAQAAAACAAEAAAAhAAUAAAADAAEAAAAhAAYAAAADAAEAAAAhAAcAAAADAAEAAAAiAAEAAAACAAAAAAAiAAIAAAADAAEAAAAiAAMAAAADAAEAAAAiAAQAAAACAAEAAAAiAAUAAAADAAAAAAAiAAYAAAADAAAAAAAiAAcAAAACAAEAAAAiAAAAAAABAAUAAAAjAAEAAAACAAAAAAAjAAIAAAADAAEAAAAjAAMAAAADAAEAAAAjAAQAAAACAAEAAAAjAAUAAAACAAEAAAAjAAYAAAACAAEAAAAjAAcAAAACAAEAAAA=")
+tile_set = SubResource("TileSet_iywne")
 
 [node name="Player" parent="." instance=ExtResource("1_uwrxv")]
+z_index = 5
 position = Vector2(48, 54)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Player"]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
 animation = &"idle"
@@ -235,3 +281,28 @@ position = Vector2(0, -8)
 zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
+
+[node name="Platform" parent="." instance=ExtResource("4_lbhrr")]
+position = Vector2(512, 21)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Platform"]
+root_node = NodePath("../../Platform2")
+libraries = {
+&"": SubResource("AnimationLibrary_p57ef")
+}
+autoplay = "move"
+
+[node name="Platform2" parent="." instance=ExtResource("4_lbhrr")]
+position = Vector2(15, 35)
+
+[node name="Coin" parent="." instance=ExtResource("5_iywne")]
+position = Vector2(104, 70)
+
+[node name="Coin2" parent="." instance=ExtResource("5_iywne")]
+position = Vector2(263, 68)
+
+[node name="Coin3" parent="." instance=ExtResource("5_iywne")]
+position = Vector2(416, 6)
+
+[node name="Coin4" parent="." instance=ExtResource("5_iywne")]
+position = Vector2(376, 87)
