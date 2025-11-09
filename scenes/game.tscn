@@ -1,11 +1,12 @@
-[gd_scene load_steps=20 format=4 uid="uid://b5pbspwp3f6sl"]
+[gd_scene load_steps=16 format=4 uid="uid://b5pbspwp3f6sl"]
 
+[ext_resource type="Script" uid="uid://btu52d4wsn6on" path="res://scripts/GameManager.cs" id="1_gee14"]
 [ext_resource type="Texture2D" uid="uid://hno1iofis03l" path="res://assets/sprites/world_tileset.png" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://8p1yvuc4go0h" path="res://scenes/player.tscn" id="1_uwrxv"]
-[ext_resource type="Texture2D" uid="uid://qr3456ahr1qp" path="res://assets/sprites/knight.png" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://b50nt0luu6tif" path="res://scenes/platform.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://yfsd1w4reptb" path="res://scenes/coin.tscn" id="5_iywne"]
 [ext_resource type="PackedScene" uid="uid://cvwd5idvcbc86" path="res://scenes/killzone.tscn" id="6_p57ef"]
+[ext_resource type="FontFile" uid="uid://c5w566k8l4mpb" path="res://assets/fonts/PixelOperator8.ttf" id="7_gee14"]
 [ext_resource type="PackedScene" uid="uid://btt2ow2m21lnc" path="res://scenes/slime.tscn" id="7_u5sy4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbhrr"]
@@ -174,42 +175,6 @@ texture = ExtResource("1_lnu2h")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_lbhrr")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
-atlas = ExtResource("2_yqjtg")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
-atlas = ExtResource("2_yqjtg")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
-atlas = ExtResource("2_yqjtg")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
-atlas = ExtResource("2_yqjtg")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g2els")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qhqgy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dqkch")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qlg0r")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 10.0
-}]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_fjrip"]
 radius = 6.0
 
@@ -255,6 +220,22 @@ _data = {
 
 [node name="Game" type="Node2D"]
 
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_gee14")
+
+[node name="ScoreLabel" type="Label" parent="GameManager"]
+offset_left = 585.0
+offset_top = -170.0
+offset_right = 737.0
+offset_bottom = -159.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_gee14")
+theme_override_font_sizes/font_size = 8
+text = "You collected X coins"
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_iywne")
 format = 2
@@ -271,14 +252,7 @@ tile_set = SubResource("TileSet_iywne")
 z_index = 5
 position = Vector2(48, 54)
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Player"]
-position = Vector2(0, -12)
-sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"idle"
-autoplay = "idle"
-frame_progress = 0.88565075
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Player"]
 position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_fjrip")
 
@@ -345,3 +319,35 @@ position = Vector2(15, 35)
 
 [node name="Slime" parent="." instance=ExtResource("7_u5sy4")]
 position = Vector2(615, 80)
+
+[node name="Labels" type="Node" parent="."]
+
+[node name="Label2" type="Label" parent="Labels"]
+offset_left = 922.0
+offset_top = -90.0
+offset_right = 1013.0
+offset_bottom = -79.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_gee14")
+theme_override_font_sizes/font_size = 8
+text = "Almost there"
+
+[node name="Label3" type="Label" parent="Labels"]
+offset_left = 402.0
+offset_top = -18.0
+offset_right = 493.0
+offset_bottom = -7.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_gee14")
+theme_override_font_sizes/font_size = 8
+text = "Falling hurts"
+
+[node name="Label" type="Label" parent="Labels"]
+offset_left = -103.0
+offset_top = 16.0
+offset_right = -12.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_gee14")
+theme_override_font_sizes/font_size = 8
+text = "Space to jump."

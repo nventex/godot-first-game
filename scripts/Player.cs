@@ -1,3 +1,4 @@
+using System.Xml.Schema;
 using Godot;
 
 public partial class Player : CharacterBody2D
@@ -7,6 +8,8 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		var playerSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		
 		Vector2 velocity = Velocity;
 
 		// Add the gravity.
@@ -16,14 +19,15 @@ public partial class Player : CharacterBody2D
 		}
 
 		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
+		if (Input.IsActionJustPressed("jump") && IsOnFloor())
 		{
 			velocity.Y = JumpVelocity;
 		}
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		Vector2 direction = Input.GetVector("move_left", "move_right", "ui_up", "ui_down");
+
 		if (direction != Vector2.Zero)
 		{
 			velocity.X = direction.X * Speed;
@@ -33,7 +37,34 @@ public partial class Player : CharacterBody2D
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 		}
 
+		// Play animations
+		if (IsOnFloor())
+		{
+			if (direction == Vector2.Zero)
+			{
+				playerSprite.Play("idle");
+			}
+			else
+			{
+				playerSprite.Play("run");
+			}
+		}
+        else
+        {
+			playerSprite.Play("jump");
+        }
+		
 		Velocity = velocity;
+
+		if (direction == Vector2.Right)
+		{
+			playerSprite.FlipH = false;
+		}
+		else if (direction == Vector2.Left)
+		{
+			playerSprite.FlipH = true;
+		}
+
 		MoveAndSlide();
 	}
 }

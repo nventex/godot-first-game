@@ -14,11 +14,14 @@ public partial class Killzone : Area2D
 	{
 		GD.Print("You died");
 		var timer = GetNode<Timer>("Timer");
+		Engine.TimeScale = 0.5;
+		body.GetNode<CollisionShape2D>("CollisionShape2D").QueueFree();
 		timer.Start();
 	}
 
 	private void OnTimerTimeout()
-    {
+	{	
+		Engine.TimeScale = 1;
 		GetTree().ReloadCurrentScene();
     }
 }
